@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    // Dal = data access layer (.net)
-    // Dao = data access object (java)
-    public interface IProductDal : IEntityRepository<Product>
+    public interface ICategoryDal : IEntityRepository<Category>
     {
     }
 }
