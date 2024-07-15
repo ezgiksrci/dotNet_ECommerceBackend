@@ -20,10 +20,15 @@ static void EmployeeTest()
 static void ProductTest()
 {
     ProductManager productManager = new ProductManager(new EfProductDal());
-    var products = productManager.GetProductDetails();
+    //var products = productManager.GetProductDetails();
 
-    foreach (var product in products)
-    {
-        Console.WriteLine(product.ProductName + " " + product.CategoryName);
-    }
+    //foreach (var product in products.Data)
+    //{
+    //    Console.WriteLine(product.ProductName + " " + product.CategoryName);
+    //}
+
+    var result = productManager.GetAll();
+
+    Console.WriteLine(result.Message);
+
 }
