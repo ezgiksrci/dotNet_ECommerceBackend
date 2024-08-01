@@ -2,6 +2,7 @@
 
 using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 
 ProductTest();
 //EmployeeTest();
@@ -27,8 +28,6 @@ static void ProductTest()
     //    Console.WriteLine(product.ProductName + " " + product.CategoryName);
     //}
 
-    var result = productManager.GetAll();
-
-    Console.WriteLine(result.Message);
+    var result = productManager.GetById(9);
 
 }
