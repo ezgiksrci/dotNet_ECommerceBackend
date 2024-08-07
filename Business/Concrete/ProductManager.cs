@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,11 +20,14 @@ namespace Business.Concrete
 
         // Business katmanı productDal'ın türünü bilmiyor. Herhangi bir "veri erişim alternatifi" olabilir. (In memory, entity framework, dapper, nhibarnete...)
         IProductDal _productDal;
+        ICategoryService _categoryService;
 
         // Construction Injection...
-        public ProductManager(IProductDal productDal)
+        // Bir entity manager başka bir entity manager'ı inject edemez...
+        public ProductManager(IProductDal productDal, ICategoryService categoryService)
         {
             _productDal = productDal;
+            _categoryService = categoryService;
         }
 
         [ValidationAspect(typeof(ProductValidator))]
@@ -31,6 +35,19 @@ namespace Business.Concrete
         {
             // business codes
             // adding rules
+            // Girilen product'ın yapısıyla ilgili kurallar => validation
+            // Yönetimin verdiği kısıtlamalar ve iş kuralları => business
+
+            var result = BusinessRules.Run(
+                CheckCategoryIfGreaterThenTen(product.CategoryId),
+                CheckIfProductNameAlreadyExists(product.ProductName),
+                CheckIfCategoryLimitExceeded()
+            );
+
+            if (result != null)
+            {
+                return result;
+            }
 
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
@@ -81,6 +98,40 @@ namespace Business.Concrete
         {
             var product = _productDal.Get(p => p.ProductId == productId);
             return new SuccessDataResult<Product>(product, Messages.ProductGetted);
+        }
+
+        private IResult CheckCategoryIfGreaterThenTen(int categoryId)
+        {
+            var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
+            if (result > 10)
+            {
+                return new ErrorResult(Messages.CategoryContainsTooManyProduct);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfProductNameAlreadyExists(string productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Count;
+
+            if (result > 0)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExists);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfCategoryLimitExceeded()
+        {
+            var result = _categoryService.GetAll().Data.Count;
+
+            if (result > 5)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceeded);
+            }
+
+            return new SuccessResult();
         }
     }
 }

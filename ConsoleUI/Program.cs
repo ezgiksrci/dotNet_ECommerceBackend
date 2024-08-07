@@ -4,7 +4,7 @@ using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 
-ProductTest();
+//ProductTest();
 //EmployeeTest();
 
 static void EmployeeTest()
@@ -18,16 +18,16 @@ static void EmployeeTest()
     }
 }
 
-static void ProductTest()
-{
-    ProductManager productManager = new ProductManager(new EfProductDal());
-    //var products = productManager.GetProductDetails();
+//static void ProductTest()
+//{
+//    ProductManager productManager = new ProductManager(new EfProductDal());
+//    //var products = productManager.GetProductDetails();
 
-    //foreach (var product in products.Data)
-    //{
-    //    Console.WriteLine(product.ProductName + " " + product.CategoryName);
-    //}
+//    //foreach (var product in products.Data)
+//    //{
+//    //    Console.WriteLine(product.ProductName + " " + product.CategoryName);
+//    //}
 
-    var result = productManager.GetById(9);
+//    var result = productManager.GetById(9);
 
-}
+//}
