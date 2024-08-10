@@ -41,7 +41,7 @@ namespace Business.Concrete
             var result = BusinessRules.Run(
                 CheckCategoryIfGreaterThenTen(product.CategoryId),
                 CheckIfProductNameAlreadyExists(product.ProductName),
-                CheckIfCategoryLimitExceeded()
+                CheckIfCategoryLimitexceeded()
             );
 
             if (result != null)
@@ -122,7 +122,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private IResult CheckIfCategoryLimitExceeded()
+        private IResult CheckIfCategoryLimitexceeded()
         {
             var result = _categoryService.GetAll().Data.Count;
 
