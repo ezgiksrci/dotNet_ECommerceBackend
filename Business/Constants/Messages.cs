@@ -18,6 +18,6 @@ namespace Business.Constants
         public static string CategoryLimitExceeded = "Toplam kategori sayısı aşıldı.";
         public static string ProductNameAlreadyExists = "Bu isimde ürün zaten var.";
         public static string CategoryContainsTooManyProduct = "Bu kategorideki ürün sayısı sınırına ulaşıldı. Daha fazla ürün eklenemiyor.";
-
+        public static string AuthorizationDenied = "Bu işleme yetkiniz yok.";
     }
 }
