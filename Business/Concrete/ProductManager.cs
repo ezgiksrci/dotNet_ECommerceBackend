@@ -3,14 +3,11 @@ using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System.Reflection;
 
 namespace Business.Concrete
 {
@@ -41,9 +38,9 @@ namespace Business.Concrete
             // Yönetimin verdiği kısıtlamalar ve iş kuralları => business
 
             var result = BusinessRules.Run(
-                CheckCategoryIfGreaterThenTen(product.CategoryId),
+                CheckCategoryIfGreaterThenMaxValue(product.CategoryId),
                 CheckIfProductNameAlreadyExists(product.ProductName),
-                CheckIfCategoryLimitexceeded()
+                CheckIfCategoryLimitExceeded()
             );
 
             if (result != null)
@@ -102,10 +99,10 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>(product, Messages.ProductGetted);
         }
 
-        private IResult CheckCategoryIfGreaterThenTen(int categoryId)
+        private IResult CheckCategoryIfGreaterThenMaxValue(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
-            if (result > 10)
+            if (result > 100)
             {
                 return new ErrorResult(Messages.CategoryContainsTooManyProduct);
             }
@@ -124,11 +121,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private IResult CheckIfCategoryLimitexceeded()
+        private IResult CheckIfCategoryLimitExceeded()
         {
             var result = _categoryService.GetAll().Data.Count;
 
-            if (result > 5)
+            if (result > 100)
             {
                 return new ErrorResult(Messages.CategoryLimitExceeded);
             }
