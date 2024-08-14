@@ -64,6 +64,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductUpdated);
         }
 
+        // [CacheAspect()] - key,value pair
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 23)

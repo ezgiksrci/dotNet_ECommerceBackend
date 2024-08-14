@@ -74,11 +74,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//---------------------------------
 // Middleware -- İhtiyaç halinde projeye eklenen araya giren operasyonlar.
 app.UseAuthentication();
-
 app.UseAuthorization();
-
+//---------------------------------
 app.MapControllers();
 
 app.Run();
