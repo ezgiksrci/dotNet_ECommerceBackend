@@ -29,6 +29,8 @@ namespace WebAPI.Controllers
             // IProductService productService = new ProductManager(new EfProductDal());
             // Swagger -- API Documentation & Design Tools for Teams
 
+            Thread.Sleep(5000);
+
             var result = _productService.GetAll();
 
             if (result.Success)
