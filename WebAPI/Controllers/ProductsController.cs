@@ -4,6 +4,7 @@ using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI.Controllers
 {
@@ -29,7 +30,7 @@ namespace WebAPI.Controllers
             // IProductService productService = new ProductManager(new EfProductDal());
             // Swagger -- API Documentation & Design Tools for Teams
 
-            Thread.Sleep(5000);
+            Thread.Sleep(500);
 
             var result = _productService.GetAll();
 
@@ -66,7 +67,20 @@ namespace WebAPI.Controllers
                 return BadRequest(result);
             }
         }
-
         // Update --> PUT ve Delete --> Delete kullanılabilir ama genelde iki işlem için de POST kullanılır.
+
+        [HttpGet("getbycategoryid")]
+        public IActionResult GetByCategoryId(int categoryId)
+        {
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }
