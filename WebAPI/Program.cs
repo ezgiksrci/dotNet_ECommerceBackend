@@ -74,6 +74,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Custom Midddleware'imiz
+app.ConfigureCustomExceptionMiddleware();
+
 // Aşağıda verdiğimiz link'ten gelen her tür isteğe izin ver, güvenilir.
 // (allow any header: her türlü istek)
 app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
