@@ -16,7 +16,7 @@ namespace Business.BusinessAspects.Autofac
         private IHttpContextAccessor _httpContextAccessor; // Encapsulates all HTTP-specific information about an individual HTTP request. İstekte bulunan her client için bir context oluşturulur.
 
 
-        // Bu bir ASPECT olduğu için 'constructor injection' ile 'service' enjekte edemiyoruz. Bu yüzden 'ServiceTool' isimli bir sınıf yazdık.
+        // Bu bir ASPECT olduğu için 'constructor injection' ile 'service' enjekte edemiyoruz.(Aspect'ler sadece string arg alır.) Bu yüzden 'ServiceTool' isimli bir sınıf yazdık.
         public SecuredOperation(string roles)
         {
             _roles = roles.Split(','); // Aspect'e parametre olarak gönderilen virgül ile ayrılmış değerleri ayır ve listeye at.

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions
@@ -39,10 +40,20 @@ namespace Core.Extensions
                     .InternalServerError; // Varsayılan olarak 500 - Internal Server Error durum kodunu ayarlar.
 
             string message = "Internal Server Error"; // Genel hata mesajı.
-            if (e.GetType() ==
-                typeof(ValidationException)) // Eğer hata bir FluentValidation hatasıysa, özel mesajı alır.
+            IEnumerable<ValidationFailure> errorList;
+
+            if (e.GetType() == typeof(ValidationException)) // Eğer hata bir FluentValidation hatasıysa, özel mesajı alır.
             {
                 message = e.Message;
+                errorList = ((ValidationException)e).Errors;
+                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest; // Bad Request
+
+                return httpContext.Response.WriteAsync(new ValidationErrorDetails()
+                {
+                    StatusCode = httpContext.Response.StatusCode,
+                    Message = message,
+                    Errors = errorList
+                }.ToString());
             }
 
             // Hata detaylarını içeren bir JSON yanıt oluşturur ve geri döner.
