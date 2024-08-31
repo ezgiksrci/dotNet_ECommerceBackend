@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Business.Constants;
 
-namespace Business.BusinessAspects.Autofac
+namespace Business.Aspects.Autofac
 {
     // JWT için
     // Secure Aspect'ler Business Class'ı içerisine yazılır. Çünkü her proje için farklı bir security rules olabilir.
