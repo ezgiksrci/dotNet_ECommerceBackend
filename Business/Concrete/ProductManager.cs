@@ -105,7 +105,7 @@ namespace Business.Concrete
         public IDataResult<Product> GetById(int productId)
         {
             var product = _productDal.Get(p => p.ProductId == productId);
-            return new SuccessDataResult<Product>(product, Messages.ProductGetted);
+            return new SuccessDataResult<Product>(product, Messages.ProductRetrieved);
         }
 
         private IResult CheckCategoryIfGreaterThenMaxValue(int categoryId)
